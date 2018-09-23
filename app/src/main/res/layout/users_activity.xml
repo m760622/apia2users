@@ -19,11 +19,11 @@
             android:id="@+id/user_list"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:users="@{viewModel.usersLiveData}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+            app:users="@{viewModel.usersLiveData}">
 
         </android.support.v7.widget.RecyclerView>
 
@@ -34,6 +34,7 @@
             android:layout_marginBottom="24dp"
             android:layout_marginEnd="24dp"
             android:clickable="true"
+            android:onClick="@{()->viewModel.showCreateDialog()}"
             app:fabSize="normal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

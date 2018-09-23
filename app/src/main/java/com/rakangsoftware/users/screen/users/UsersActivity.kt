@@ -33,9 +33,11 @@ class UsersActivity : AppCompatActivity() {
         user_list.layoutManager = LinearLayoutManager(this)
         user_list.adapter = adapter
 
-        add_user.setOnClickListener {
-            showCreateDialog()
-        }
+        viewModel.createLiveData.observe(this, object : Observer<Boolean> {
+            override fun onChanged(t: Boolean?) {
+                showCreateDialog()
+            }
+        })
     }
 
     private fun showCreateDialog() {
