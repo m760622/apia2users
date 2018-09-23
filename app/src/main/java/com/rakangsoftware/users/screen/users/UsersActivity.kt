@@ -1,5 +1,6 @@
 package com.rakangsoftware.users.screen.users
 
+import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.Intent
@@ -25,28 +26,21 @@ class UsersActivity : AppCompatActivity() {
         val adapter = UserAdapter()
         adapter.setOnUserClickListener(object : UserViewHolder.OnUserClickedListener {
             override fun onUserClicked(user: User) {
-                viewModel.deleteUser(user, object : Callback {
-                    override fun onSuccess() {
-                        updateList(adapter)
-                    }
-                })
+                println("deleteUser")
+                viewModel.deleteUser(user)
             }
         })
 
         user_list.layoutManager = LinearLayoutManager(this)
         user_list.adapter = adapter
 
-        updateList(adapter)
-
         add_user.setOnClickListener {
             showCreateDialog(adapter)
         }
-    }
 
-    fun updateList(adapter: UserAdapter) {
-        viewModel.loadUser(object : UsersActivity.OnUsersLoaded {
-            override fun onSuccess(users: List<User>) {
-                adapter.setUsers(users)
+        viewModel.usersLiveData.observe(this, object : Observer<List<User>> {
+            override fun onChanged(t: List<User>?) {
+                adapter.setUsers(t ?: ArrayList())
             }
         })
     }
@@ -62,24 +56,11 @@ class UsersActivity : AppCompatActivity() {
         val lastNameView = view.findViewById(R.id.lastName) as TextInputEditText
 
         builder.setPositiveButton(android.R.string.ok) { dialog, p ->
-            viewModel.createUser(User(firstNameView.text.toString(), lastNameView.text.toString()), object : Callback {
-                override fun onSuccess() {
-                    updateList(adapter)
-                }
-            })
+            viewModel.createUser(User(firstNameView.text.toString(), lastNameView.text.toString()))
         }
 
         builder.show()
     }
-
-    interface OnUsersLoaded {
-        fun onSuccess(users: List<User>)
-    }
-
-    interface Callback {
-        fun onSuccess()
-    }
-
 
     companion object {
         fun start(context: Context) {
