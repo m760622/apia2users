@@ -28,22 +28,17 @@ class UsersActivity : AppCompatActivity() {
         binding.setLifecycleOwner(this)
         binding.executePendingBindings()
 
-        val adapter = UserAdapter()
-        adapter.setOnUserClickListener(object : UserViewHolder.OnUserClickedListener {
-            override fun onUserClicked(user: User) {
-                viewModel.deleteUser(user)
-            }
-        })
+        val adapter = UserAdapter(viewModel)
 
         user_list.layoutManager = LinearLayoutManager(this)
         user_list.adapter = adapter
 
         add_user.setOnClickListener {
-            showCreateDialog(adapter)
+            showCreateDialog()
         }
     }
 
-    private fun showCreateDialog(adapter: UserAdapter) {
+    private fun showCreateDialog() {
         val builder = AlertDialog.Builder(this)
         builder.setTitle("Add user")
 
