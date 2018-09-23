@@ -3,13 +3,12 @@ package com.rakangsoftware.users.screen.users
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.ViewModel
 import com.rakangsoftware.users.data.user.User
-import com.rakangsoftware.users.data.user.UserDao
-import com.rakangsoftware.users.utils.IO
+import com.rakangsoftware.users.data.user.UserRepository
 import com.rakangsoftware.users.utils.SingleLiveEvent
 
-class UsersViewModel(var userDao: UserDao) : ViewModel() {
+class UsersViewModel(var userRepo: UserRepository) : ViewModel() {
 
-    val usersLiveData: LiveData<List<User>> = userDao.get()
+    val usersLiveData: LiveData<List<User>> = userRepo.read()
 
     val createLiveData: SingleLiveEvent<Boolean> = SingleLiveEvent()
 
@@ -18,15 +17,10 @@ class UsersViewModel(var userDao: UserDao) : ViewModel() {
     }
 
     fun createUser(user: User) {
-        IO.execute {
-            userDao.insert(user)
-        }
+        userRepo.create(user)
     }
 
     fun deleteUser(user: User) {
-        IO.execute {
-            userDao.delete(user)
-        }
+        userRepo.delete(user)
     }
-
 }

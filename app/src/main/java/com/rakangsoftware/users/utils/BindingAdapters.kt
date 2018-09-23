@@ -1,6 +1,5 @@
 package com.rakangsoftware.users.utils
 
-import android.arch.lifecycle.LiveData
 import android.databinding.BindingAdapter
 import android.support.v7.widget.RecyclerView
 import com.rakangsoftware.users.data.user.User
