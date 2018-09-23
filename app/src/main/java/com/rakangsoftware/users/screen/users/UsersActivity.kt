@@ -1,31 +1,31 @@
 package com.rakangsoftware.users.screen.users
 
+import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.Intent
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.design.widget.TextInputEditText
-import android.support.design.widget.TextInputLayout
 import android.support.v7.app.AlertDialog
+import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
-import android.widget.TextView
 import com.rakangsoftware.users.R
-import com.rakangsoftware.users.data.AppDatabase
 import com.rakangsoftware.users.data.user.User
-import com.rakangsoftware.users.utils.IO
-import com.rakangsoftware.users.utils.UI
 import kotlinx.android.synthetic.main.users_activity.*
 
 class UsersActivity : AppCompatActivity() {
+
+    lateinit var viewModel: UsersViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.users_activity)
 
+        viewModel = ViewModelProviders.of(this, UsersViewModelFactory(this)).get(UsersViewModel::class.java)
+
         val adapter = UserAdapter()
         adapter.setOnUserClickListener(object : UserViewHolder.OnUserClickedListener {
             override fun onUserClicked(user: User) {
-                deleteUser(user, object : Callback {
+                viewModel.deleteUser(user, object : Callback {
                     override fun onSuccess() {
                         updateList(adapter)
                     }
@@ -44,38 +44,11 @@ class UsersActivity : AppCompatActivity() {
     }
 
     fun updateList(adapter: UserAdapter) {
-        loadUser(object : OnUsersLoaded {
+        viewModel.loadUser(object : UsersActivity.OnUsersLoaded {
             override fun onSuccess(users: List<User>) {
                 adapter.setUsers(users)
             }
         })
-    }
-
-    fun loadUser(listener: OnUsersLoaded) {
-        IO.execute {
-            val users = AppDatabase.getInstance(this)?.userDao?.get() ?: ArrayList()
-            UI.execute {
-                listener.onSuccess(users)
-            }
-        }
-    }
-
-    fun createUser(user: User, listener: Callback) {
-        IO.execute {
-            AppDatabase.getInstance(this)?.userDao?.insert(user)
-            UI.execute {
-                listener.onSuccess()
-            }
-        }
-    }
-
-    fun deleteUser(user: User, listener: Callback) {
-        IO.execute {
-            AppDatabase.getInstance(this)?.userDao?.delete(user)
-            UI.execute {
-                listener.onSuccess()
-            }
-        }
     }
 
     private fun showCreateDialog(adapter: UserAdapter) {
@@ -89,7 +62,7 @@ class UsersActivity : AppCompatActivity() {
         val lastNameView = view.findViewById(R.id.lastName) as TextInputEditText
 
         builder.setPositiveButton(android.R.string.ok) { dialog, p ->
-            createUser(User(firstNameView.text.toString(), lastNameView.text.toString()), object : Callback {
+            viewModel.createUser(User(firstNameView.text.toString(), lastNameView.text.toString()), object : Callback {
                 override fun onSuccess() {
                     updateList(adapter)
                 }
