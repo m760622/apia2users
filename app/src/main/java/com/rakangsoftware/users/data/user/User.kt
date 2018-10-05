@@ -11,5 +11,5 @@ data class User(
 ) {
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "_id")
-    var id: Long = 0;
+    var id: Long = 0
 }

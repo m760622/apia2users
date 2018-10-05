@@ -12,15 +12,9 @@ class UsersViewModel(var userRepo: UserRepository) : ViewModel() {
 
     val createLiveData: SingleLiveEvent<Boolean> = SingleLiveEvent()
 
-    fun showCreateDialog() {
-        createLiveData.postValue(true)
-    }
+    fun showCreateDialog() = createLiveData.postValue(true)
 
-    fun createUser(user: User) {
-        userRepo.create(user)
-    }
+    fun createUser(user: User) = userRepo.create(user)
 
-    fun deleteUser(user: User) {
-        userRepo.delete(user)
-    }
+    fun deleteUser(user: User) = userRepo.delete(user)
 }

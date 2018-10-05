@@ -21,7 +21,9 @@
             android:id="@+id/firstName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="First Name" />
+            android:hint="@string/first_name"
+            android:inputType="textCapWords|textPersonName"
+            android:singleLine="true" />
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
@@ -39,6 +41,8 @@
             android:id="@+id/lastName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Last Name" />
+            android:hint="@string/last_name"
+            android:inputType="textCapWords|textPersonName"
+            android:singleLine="true" />
     </android.support.design.widget.TextInputLayout>
 </android.support.constraint.ConstraintLayout>

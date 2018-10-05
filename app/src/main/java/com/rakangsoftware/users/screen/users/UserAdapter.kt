@@ -6,10 +6,13 @@ import com.rakangsoftware.users.data.user.User
 
 class UserAdapter(val viewModel: UsersViewModel) : RecyclerView.Adapter<UserViewHolder>() {
 
-    private var users: List<User> = ArrayList()
+    private val users: MutableList<User> = mutableListOf()
 
     fun setUsers(users: List<User>) {
-        this.users = users
+        this.users.apply {
+            clear()
+            addAll(users)
+        }
         notifyDataSetChanged()
     }
 

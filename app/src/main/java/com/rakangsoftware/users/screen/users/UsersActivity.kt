@@ -17,14 +17,12 @@ import kotlinx.android.synthetic.main.users_activity.*
 
 class UsersActivity : AppCompatActivity() {
 
-    lateinit var viewModel: UsersViewModel
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        viewModel = ViewModelProviders.of(this, UsersViewModelFactory(this)).get(UsersViewModel::class.java)
+        val viewModel = ViewModelProviders.of(this, UsersViewModelFactory(this)).get(UsersViewModel::class.java)
         val binding: UsersActivityBinding = DataBindingUtil.setContentView(this, R.layout.users_activity)
-        binding.viewModel = viewModel;
+        binding.viewModel = viewModel
         binding.setLifecycleOwner(this)
         binding.executePendingBindings()
 
@@ -35,12 +33,12 @@ class UsersActivity : AppCompatActivity() {
 
         viewModel.createLiveData.observe(this, object : Observer<Boolean> {
             override fun onChanged(t: Boolean?) {
-                showCreateDialog()
+                showCreateDialog(viewModel)
             }
         })
     }
 
-    private fun showCreateDialog() {
+    private fun showCreateDialog(viewModel: UsersViewModel) {
         val builder = AlertDialog.Builder(this)
         builder.setTitle("Add user")
 
@@ -50,7 +48,7 @@ class UsersActivity : AppCompatActivity() {
         val firstNameView = view.findViewById(R.id.firstName) as TextInputEditText
         val lastNameView = view.findViewById(R.id.lastName) as TextInputEditText
 
-        builder.setPositiveButton(android.R.string.ok) { dialog, p ->
+        builder.setPositiveButton(android.R.string.ok) { _, _ ->
             viewModel.createUser(User(firstNameView.text.toString(), lastNameView.text.toString()))
         }
 

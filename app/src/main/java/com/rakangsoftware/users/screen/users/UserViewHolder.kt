@@ -18,10 +18,11 @@ class UserViewHolder(val binding: UserListItemBinding) : RecyclerView.ViewHolder
 
     companion object {
         fun newInstance(parent: ViewGroup, viewModel: UsersViewModel): UserViewHolder {
-            val binding = DataBindingUtil.inflate(LayoutInflater.from(parent.context), R.layout.user_list_item, parent, false) as UserListItemBinding
-            binding.viewModel = viewModel;
+            val binding = DataBindingUtil.inflate(
+                    LayoutInflater.from(parent.context), R.layout.user_list_item, parent, false
+            ) as UserListItemBinding
+            binding.viewModel = viewModel
             return UserViewHolder(binding)
         }
     }
-
 }

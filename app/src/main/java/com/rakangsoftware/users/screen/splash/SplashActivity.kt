@@ -10,5 +10,6 @@ class SplashActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         UsersActivity.start(this)
+        finish()
     }
 }
