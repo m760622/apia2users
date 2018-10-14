@@ -14,6 +14,7 @@ class RepositoryFactory {
         @JvmStatic
         @Synchronized
         fun getUserRepository(context: Context): UserRepository {
+  //      fun getUserRepository(): UserRepository {
             if (sUserRepository == null) {
                 sUserRepository = UserRepositoryFB()
             }

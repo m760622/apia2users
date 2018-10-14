@@ -1,7 +1,18 @@
 <resources>
-    <string name="app_name">Users</string>
+    <string name="app_name">Users Apia2</string>
 
     <!-- Create user dialog -->
     <string name="first_name">First Name</string>
     <string name="last_name">Last Name</string>
+    <string name="share">Share</string>
+    <string name="settings">Settings</string>
+    <string name="info">Info</string>
+    <string name="close">close</string>
+    <string name="search">Search</string>
+    <string name="next">Next</string>
+    <string name="drawer_open">Open</string>
+    <string name="drawer_close">Close</string>
+    <string name="bottom_nav_bar">bottom_nav_bar</string>
+    <string name="navigation_list">list</string>
+
 </resources>
